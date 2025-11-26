@@ -1,0 +1,11 @@
+name: first workflow ## define name of workflow
+on: workflow_dispatch ##event/tigger that define when this workflow will get executed. Mention event for manual execution
+jobs:
+  my_first_job: #name of job
+    runs-on: ubuntu-latest ## on which type of server/os it will run.refer github action document for other supporting runner
+    steps:
+      - name: Print greeting
+        run: echo "Hello world" ##task you want to execute like executing script
+      - name: Print good bye
+        run: echo "bye"
+
