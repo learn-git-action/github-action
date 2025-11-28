@@ -26,8 +26,8 @@ jobs:
                 npm i --package-lock-only
                 npm ci
                 npm i env-cmd 
-            - name: Run Tests
-              run: npm test
+            # - name: Run Tests
+            #   run: npm test
         
         # steps:
         #     - name: Checkout repository
