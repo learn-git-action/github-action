@@ -18,12 +18,13 @@ jobs:
                 node-version: '24.x' 
             - name: Install dependencies
               run: |
+                cd nodejs-workflow
                 pwd
                 npm i --legacy-peer-deps
                 npm i --package-lock-only
                 npm ci
                 npm i env-cmd 
-              working-directory: ./.github-action/nodejs-workflow/package.json
+              working-directory: ./.github-action/nodejs-workflow
             - name: Run Tests
               run: npm test
         
