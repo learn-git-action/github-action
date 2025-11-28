@@ -4,9 +4,12 @@ on:
     push:
         branches:
             - dev-ps
-defaults:
-  run:
-    working-directory: ./nodejs-workflow
+## we can use either 'env' or 'defaults' to set working directory for run commands
+env:
+    PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
+# defaults:
+#   run:
+#     working-directory: ./nodejs-workflow ##default working directory for all run commands
 jobs:
     reactjs-job:
         runs-on: ubuntu-latest
@@ -20,6 +23,7 @@ jobs:
               with:
                 node-version: '24.x' 
             - name: Install dependencies
+              working-directory: ${{ env.PROJECT_DIR }}
               run: |
                 pwd
                 npm i --legacy-peer-deps
