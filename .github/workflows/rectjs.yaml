@@ -1,6 +1,6 @@
 name: Test project for react js
 on: 
-    #workflow_dispatch:
+    workflow_dispatch:
     push:
         branches:
             - dev-ps
@@ -29,21 +29,4 @@ jobs:
                 npm i --legacy-peer-deps
                 npm i --package-lock-only
                 npm ci
-                npm i env-cmd 
-            # - name: Run Tests
-            #   run: npm test
-        
-        # steps:
-        #     - name: Checkout repository
-        #       uses: actions/checkout@v2
-
-        #     - name: Set up Node.js
-        #       uses: actions/setup-node@v2
-        #       with:
-        #           node-version: '14'
-
-        #     - name: Install dependencies
-        #       run: npm install
-
-        #     - name: Run tests
-        #       run: npm test
+                npm i env-cmd
