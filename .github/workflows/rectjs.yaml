@@ -24,7 +24,6 @@ jobs:
                 npm i --package-lock-only
                 npm ci
                 npm i env-cmd 
-              working-directory: ./.github-action/nodejs-workflow
             - name: Run Tests
               run: npm test
         
