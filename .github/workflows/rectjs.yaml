@@ -1,0 +1,54 @@
+name: React js
+on: 
+    workflow_dispatch:
+    push:
+        branches:
+            - dev-ps
+## we can use either 'env' or 'defaults' to set working directory for run commands
+env:
+    PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
+# defaults:
+#   run:
+#     working-directory: ./nodejs-workflow ##default working directory for all run commands
+jobs:
+    reactjs-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+              with:
+                ref: dev-ps
+            - name: install nodejs
+              uses: actions/setup-node@v6
+              with:
+                node-version: '24.x' 
+            - name: Install dependencies
+              working-directory: ${{ env.PROJECT_DIR }}
+              run: |
+                pwd
+                npm i --legacy-peer-deps
+                npm i --package-lock-only
+                npm ci
+                npm i env-cmd
+    deploy-job: ##this job by defukt runs parallel to reactjs-job
+         runs-on: ubuntu-latest ## each job its own runner
+         steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+              with:
+                ref: dev-ps
+            - name: install nodejs
+              uses: actions/setup-node@v6
+              with:
+                node-version: '24.x' 
+            - name: Install dependencies
+              working-directory: ${{ env.PROJECT_DIR }}
+              run: |
+                pwd
+                npm i --legacy-peer-deps
+                npm i --package-lock-only
+                npm ci
+                npm i env-cmd
+            - name: Deploy Application
+              run: echo "Deploying React Application..."
+
