@@ -1,0 +1,41 @@
+name: Test project for react js
+on: 
+    workflow_dispatch:
+    push:
+        branches:
+            - dev-ps
+jobs:
+    reactjs-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+              with:
+                ref: dev-ps
+            - name: install nodejs
+              uses: actions/setup-node@v6
+              with:
+                node-version: '24.x' 
+            - name: Install dependencies
+              run: |
+                npm i --legacy-peer-deps
+                npm i --package-lock-only
+                npm ci
+                npm i env-cmd 
+            - name: Run Tests
+              run: npm test
+        
+        # steps:
+        #     - name: Checkout repository
+        #       uses: actions/checkout@v2
+
+        #     - name: Set up Node.js
+        #       uses: actions/setup-node@v2
+        #       with:
+        #           node-version: '14'
+
+        #     - name: Install dependencies
+        #       run: npm install
+
+        #     - name: Run tests
+        #       run: npm test
