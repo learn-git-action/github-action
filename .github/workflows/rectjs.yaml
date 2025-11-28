@@ -52,8 +52,8 @@ jobs:
                 npm i env-cmd
             - name: Deploy Application
               run: echo "Deploying React Application..."
-    info:
-        needs: deploy-job
+    job_info:
+        needs: [deploy-job, reactjs-job] ## this job will run only after successful completion of both 'deploy-job' and 'reactjs-job'
         runs-on: ubuntu-latest
         steps:
             - name: Output github context
