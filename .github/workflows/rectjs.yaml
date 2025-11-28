@@ -53,6 +53,7 @@ jobs:
             - name: Deploy Application
               run: echo "Deploying React Application..."
     info:
+        needs: deploy-job
         runs-on: ubuntu-latest
         steps:
             - name: Output github context
