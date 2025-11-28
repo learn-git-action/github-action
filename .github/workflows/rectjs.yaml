@@ -4,6 +4,9 @@ on:
     push:
         branches:
             - dev-ps
+defaults:
+  run:
+    working-directory: ./nodejs-workflow
 jobs:
     reactjs-job:
         runs-on: ubuntu-latest
@@ -18,7 +21,6 @@ jobs:
                 node-version: '24.x' 
             - name: Install dependencies
               run: |
-                cd nodejs-workflow
                 pwd
                 npm i --legacy-peer-deps
                 npm i --package-lock-only
