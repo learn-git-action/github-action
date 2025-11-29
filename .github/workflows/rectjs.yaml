@@ -11,7 +11,7 @@ env:
 #   run:
 #     working-directory: ./nodejs-workflow ##default working directory for all run commands
 jobs:
-    reactjs-job:
+    Install-nodejs-dependencies:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
@@ -31,7 +31,7 @@ jobs:
                 npm ci
                 npm i env-cmd
     deploy-job: ##this job by default runs parallel to reactjs-job
-         needs: reactjs-job ## needs will ensure deploy-job runs only after successful completion of 'reactjs-job'
+         needs: Install-nodejs-dependencies ## needs will ensure deploy-job runs only after successful completion of 'reactjs-job'
          runs-on: ubuntu-latest ## each job its own runner
          steps:
             - name: Checkout code
@@ -53,7 +53,7 @@ jobs:
             - name: Deploy Application
               run: echo "Deploying React Application..."
     job_info:
-        needs: [deploy-job, reactjs-job] ## this job will run only after successful completion of both 'deploy-job' and 'reactjs-job'
+        needs: [deploy-job, Install-nodejs-dependencies] ## this job will run only after successful completion of both 'deploy-job' and 'Install-nodejs-dependencies'
         runs-on: ubuntu-latest
         steps:
             - name: Output github context
