@@ -2,9 +2,9 @@ name: Run lint tests
 on:
     workflow_dispatch:
     issues:
-    push:
-        branches:
-            - dev-ps
+    # push:
+    #     branches:
+    #         - dev-ps
 env:
     PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
 jobs:
