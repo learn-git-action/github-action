@@ -1,51 +1,51 @@
-name: Run Lint tests
-on:
-    workflow_dispatch:
-    push:
-        branches:
-            - dev-ps
-env:
-    PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
-jobs:
-    lint-tes:
-        runs-on: ubuntu-latest
-        steps:
-            - name: checkout code
-              uses: actions/checkout@v6
-              with:
-                ref: dev-ps
-            - name: Install dependencies
-              working-directory: ${{ env.PROJECT_DIR }}
-              run: npm install
-            - name: Run ESLint
-              working-directory: ${{ env.PROJECT_DIR }}
-              #run: npx eslint src/**/*.js
-              run: npm run lint
-            - name: Build code
-              working-directory: ${{ env.PROJECT_DIR }}
-              run: npm run build
-            - name: Deploy code
-             run: echo "Deploying code..."
-    # lint-test:
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - name: Checkout code
-    #           uses: actions/checkout@v6
-    #           with:
-    #             ref: dev-ps
-    #         - name: install nodejs
-    #           uses: actions/setup-node@v6
-    #           with:
-    #             node-version: '24.x' 
-    #         - name: Install dependencies
-    #           working-directory: ${{ env.PROJECT_DIR }}
-    #           run: |
-    #             pwd
-    #             npm i --legacy-peer-deps
-    #             npm i --package-lock-only
-    #             npm ci
-    #             npm i env-cmd
-    #         - name: Run ESLint
-    #           working-directory: ${{ env.PROJECT_DIR }}
-    #           run: |
-    #             npx eslint src/**/*.js
+# name: Run Lint tests
+# on:
+#     workflow_dispatch:
+#     push:
+#         branches:
+#             - dev-ps
+# env:
+#     PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
+# jobs:
+#     lint-tes:
+#         runs-on: ubuntu-latest
+#         steps:
+#             - name: checkout code
+#               uses: actions/checkout@v6
+#               with:
+#                 ref: dev-ps
+#             - name: Install dependencies
+#               working-directory: ${{ env.PROJECT_DIR }}
+#               run: npm install
+#             - name: Run ESLint
+#               working-directory: ${{ env.PROJECT_DIR }}
+#               #run: npx eslint src/**/*.js
+#               run: npm run lint
+#             - name: Build code
+#               working-directory: ${{ env.PROJECT_DIR }}
+#               run: npm run build
+#             - name: Deploy code
+#              run: echo "Deploying code..."
+#     # lint-test:
+#     #     runs-on: ubuntu-latest
+#     #     steps:
+#     #         - name: Checkout code
+#     #           uses: actions/checkout@v6
+#     #           with:
+#     #             ref: dev-ps
+#     #         - name: install nodejs
+#     #           uses: actions/setup-node@v6
+#     #           with:
+#     #             node-version: '24.x' 
+#     #         - name: Install dependencies
+#     #           working-directory: ${{ env.PROJECT_DIR }}
+#     #           run: |
+#     #             pwd
+#     #             npm i --legacy-peer-deps
+#     #             npm i --package-lock-only
+#     #             npm ci
+#     #             npm i env-cmd
+#     #         - name: Run ESLint
+#     #           working-directory: ${{ env.PROJECT_DIR }}
+#     #           run: |
+#     #             npx eslint src/**/*.js
