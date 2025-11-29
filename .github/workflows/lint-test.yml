@@ -1,13 +1,14 @@
 name: Run lint tests
 on:
     workflow_dispatch:
+    issues:
     push:
         branches:
             - dev-ps
 env:
     PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
 jobs:
-    lint-tes:
+    lint-test:
         runs-on: ubuntu-latest
         steps:
             - name: checkout code
@@ -26,3 +27,9 @@ jobs:
               run: npm run build
             - name: Deploy code
               run: echo "Deploying code..."
+    output-info:
+        needs: lint-test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Output github context
+              run: echo "${{ toJson(github.event) }}"
