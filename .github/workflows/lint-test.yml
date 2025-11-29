@@ -1,4 +1,4 @@
-name: Run Lint tests
+name: Run lint tests
 on:
     workflow_dispatch:
     push:
