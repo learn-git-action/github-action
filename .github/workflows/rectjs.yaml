@@ -3,7 +3,7 @@ on:
     workflow_dispatch:
     push:
         branches:
-            - dev-ps
+          - dev-ps
 ## we can use either 'env' or 'defaults' to set working directory for run commands
 env:
     PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
