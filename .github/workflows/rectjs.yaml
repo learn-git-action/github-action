@@ -4,7 +4,15 @@ on:
     push:
         branches:
           - dev-ps
+        branches-ignore:
+          - main
+        paths:
+          - 'nodejs-workflow/**'  ##trigger workflow only if there are changes in nodejs-workflow directory
+        paths-ignore:
+          - 'docs/**'  ##do not trigger workflow if there are only changes in docs directory
+          #Hi Avinash- '.github/workflows/**'  ##do not trigger workflow if there are only changes in .github/workflows directory
 ## we can use either 'env' or 'defaults' to set working directory for run commands
+
 env:
     PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
 # defaults:
