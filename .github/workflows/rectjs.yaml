@@ -1,4 +1,4 @@
-name: React js
+name: React js workflow
 on: 
     workflow_dispatch:
     push:
