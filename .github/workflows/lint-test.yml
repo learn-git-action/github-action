@@ -30,11 +30,18 @@ jobs:
               run: |
                 #echo "script-file=$(ls build/main.*.js)" >> $GITHUB_OUTPUT
                 find build/*.js -type f -execdir echo 'my-script-file{}' ';' >> $GITHUB_OUTPUT
+            
             - name: Deploy code
               run: echo "Deploying code..."
     output-info:
         needs: lint-test
         runs-on: ubuntu-latest
         steps:
+            - name: Download Artifact
+              uses: actions/download-artifact@v3
+              with:
+                name: my-artifact
+            - name: required file name
+              run : echo "${{ needs.lint-test.outputs.script-file }}"
             - name: Output github context
               run: echo "${{ toJson(github.event) }}"
