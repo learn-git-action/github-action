@@ -8,9 +8,9 @@ on:
           #- main
         paths:
           - 'nodejs-workflow/**'  ##trigger workflow only if there are changes in nodejs-workflow directory
-        paths-ignore:
-          - 'docs/**'  ##do not trigger workflow if there are only changes in docs directory
-          #Hi Avinash- '.github/workflows/**'  ##do not trigger workflow if there are only changes in .github/workflows directory
+        # paths-ignore:
+        #   - 'docs/**'  ##do not trigger workflow if there are only changes in docs directory
+        #   - '.github/workflows/**'  ##do not trigger workflow if there are only changes in .github/workflows directory
 ## we can use either 'env' or 'defaults' to set working directory for run commands
 
 env:
