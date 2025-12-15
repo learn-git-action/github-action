@@ -38,7 +38,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Download Artifact
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v6
               with:
                 name: my-artifact
             - name: required file name
