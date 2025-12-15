@@ -6,7 +6,7 @@ env:
     PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
 jobs:
     lint-test:
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-latest ## each job its own runner
         outputs: ## output section is for fetch output from build and get name info about files under build which van be used further operations
           script-file: ${{ steps.publish-js-files.outputs.my-script-file }}
         steps:
