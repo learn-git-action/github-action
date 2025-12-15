@@ -20,7 +20,7 @@ function App() {
         </div>
 
         <div className="card">
-          <h3>Input Example</h3>
+          <h2>Input Example</h2>
           <input
             type="text"
             placeholder="Enter your name"
