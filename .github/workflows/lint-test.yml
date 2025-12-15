@@ -1,5 +1,5 @@
 name: Run lint tests
-on: [workflow_dispatch, issues]   # push:
+on: [workflow_dispatch, push]   # push:
     #     branches:
     #         - dev-ps
 env:
