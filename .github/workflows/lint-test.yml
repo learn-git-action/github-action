@@ -24,6 +24,11 @@ jobs:
             - name: Build code
               working-directory: ${{ env.PROJECT_DIR }}
               run: npm run build
+            - name: upload artifact
+              uses: actions/upload-artifact@v6
+              with:
+                name: my-artifact
+                path: ${{ env.PROJECT_DIR }}/build/
             - name: publish js files ## just to get a file name from build folder
               working-directory: ${{ env.PROJECT_DIR }}
               id : publish-js-files
@@ -37,7 +42,7 @@ jobs:
         needs: lint-test
         runs-on: ubuntu-latest
         steps:
-            - name: Download Artifact
+            - name: Download Artifact ## need an upload as well
               uses: actions/download-artifact@v6
               with:
                 name: my-artifact
