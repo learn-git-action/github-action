@@ -24,18 +24,17 @@ jobs:
             - name: Build code
               working-directory: ${{ env.PROJECT_DIR }}
               run: npm run build
-            - name: upload artifact
-              uses: actions/upload-artifact@v6
-              with:
-                name: my-artifact
-                path: ${{ env.PROJECT_DIR }}/build/
             - name: publish js files ## just to get a file name from build folder
               working-directory: ${{ env.PROJECT_DIR }}
               id : publish-js-files
               run: |
                 echo "script-file=$(ls build/*)" >> $GITHUB_OUTPUT
-                #find build/*.js -type f -execdir echo 'my-script-file{}' ';' >> $GITHUB_OUTPUT
-            
+                #find build/*.html -type f -execdir echo 'my-script-file{}' ';' >> $GITHUB_OUTPUT
+            - name: upload artifact
+              uses: actions/upload-artifact@v6
+              with:
+                name: my-artifact
+                path: ${{ env.PROJECT_DIR }}/build/
             - name: Deploy code
               run: echo "Deploying code..."
     output-info:
