@@ -33,7 +33,7 @@ jobs:
               working-directory: ${{ env.PROJECT_DIR }}
               id : publish-js-files
               run: |
-                echo "script-file=$(ls build/*.js)" >> $GITHUB_OUTPUT
+                echo "script-file=$(ls build/*)" >> $GITHUB_OUTPUT
                 #find build/*.js -type f -execdir echo 'my-script-file{}' ';' >> $GITHUB_OUTPUT
             
             - name: Deploy code
