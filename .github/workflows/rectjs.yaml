@@ -4,8 +4,8 @@ on:
     push:
         branches:
           - dev-ps
-        branches-ignore:
-          - main
+        #branches-ignore:
+          #- main
         paths:
           - 'nodejs-workflow/**'  ##trigger workflow only if there are changes in nodejs-workflow directory
         paths-ignore:
