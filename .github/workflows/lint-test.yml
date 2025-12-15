@@ -7,6 +7,8 @@ env:
 jobs:
     lint-test:
         runs-on: ubuntu-latest
+        outputs: ## output section is for fetch output from build and get name info about files under build which van be used further operations
+          script-file: ${{ steps.publish-js-files.outputs.my-script-file }}
         steps:
             - name: checkout code
               uses: actions/checkout@v6
@@ -22,6 +24,12 @@ jobs:
             - name: Build code
               working-directory: ${{ env.PROJECT_DIR }}
               run: npm run build
+            - name: publish js files ## just to get a file name from build folder
+              working-directory: ${{ env.PROJECT_DIR }}
+              id : publish-js-files
+              run: |
+                #echo "script-file=$(ls build/main.*.js)" >> $GITHUB_OUTPUT
+                find build/*.js -type f -execdir echo 'my-script-file{}' ';' >> $GITHUB_OUTPUT
             - name: Deploy code
               run: echo "Deploying code..."
     output-info:
