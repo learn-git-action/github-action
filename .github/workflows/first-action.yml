@@ -1,4 +1,4 @@
-name: first workflow ## define name of workflow
+name: First workflow ## define name of workflow
 on: workflow_dispatch ##event/tigger that define when this workflow will get executed. Mention event for manual execution
 jobs:
   my_first_job: #name of job

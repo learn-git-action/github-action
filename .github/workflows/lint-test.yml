@@ -1,0 +1,51 @@
+name: Run lint tests
+on: [workflow_dispatch, push]   # push:
+    #     branches:
+    #         - dev-ps
+env:
+    PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
+jobs:
+    lint-test:
+        runs-on: ubuntu-latest ## each job its own runner
+        outputs: ## output section is for fetch output from build and get name info about files under build which van be used further operations
+          script-file: ${{ steps.publish-js-files.outputs.my-script-file }}
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v6
+              with:
+                ref: dev-ps
+            - name: Install dependencies
+              working-directory: ${{ env.PROJECT_DIR }}
+              run: npm install
+            - name: Run ESLint
+              working-directory: ${{ env.PROJECT_DIR }}
+              #run: npx eslint src/**/*.js
+              run: npm run lint
+            - name: Build code
+              working-directory: ${{ env.PROJECT_DIR }}
+              run: npm run build
+            - name: publish js files ## just to get a file name from build folder
+              working-directory: ${{ env.PROJECT_DIR }}
+              id : publish-js-files
+              run: |
+                echo "script-file=$(ls build/main.*.js)" >> $GITHUB_OUTPUT
+                #find build/*.js -type f -execdir echo 'my-script-file{}' ';' >> $GITHUB_OUTPUT
+            - name: upload artifact
+              uses: actions/upload-artifact@v6
+              with:
+                name: my-artifact
+                path: ${{ env.PROJECT_DIR }}/build/
+            - name: Deploy code
+              run: echo "Deploying code..."
+    output-info:
+        needs: lint-test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download Artifact ## need an upload as well
+              uses: actions/download-artifact@v6
+              with:
+                name: my-artifact
+            - name: required file name
+              run : echo "${{ needs.lint-test.outputs.script-file }}"
+            - name: Output github context
+              run: echo "${{ toJson(github.event) }}"

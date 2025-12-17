@@ -1,17 +1,25 @@
-name: React js
+name: React js workflow
 on: 
     workflow_dispatch:
     push:
         branches:
-            - dev-ps
+          - dev-ps
+        #branches-ignore:
+          #- main
+        paths:
+          - 'nodejs-workflow/**'  ##trigger workflow only if there are changes in nodejs-workflow directory
+        # paths-ignore:
+        #   - 'docs/**'  ##do not trigger workflow if there are only changes in docs directory
+        #   - '.github/workflows/**'  ##do not trigger workflow if there are only changes in .github/workflows directory
 ## we can use either 'env' or 'defaults' to set working directory for run commands
+
 env:
     PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
 # defaults:
 #   run:
 #     working-directory: ./nodejs-workflow ##default working directory for all run commands
 jobs:
-    reactjs-job:
+    Install-nodejs-dependencies:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
@@ -22,6 +30,11 @@ jobs:
               uses: actions/setup-node@v6
               with:
                 node-version: '24.x' 
+            - name: cache dependencies ## to remove same installtion again in below jobs.
+              uses: actions/cache@v5
+              with:
+                path: ~/.npm
+                key:  ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} ## key based on package-lock.json file hash
             - name: Install dependencies
               working-directory: ${{ env.PROJECT_DIR }}
               run: |
@@ -30,7 +43,8 @@ jobs:
                 npm i --package-lock-only
                 npm ci
                 npm i env-cmd
-    deploy-job: ##this job by defukt runs parallel to reactjs-job
+    deploy-job: ##this job by default runs parallel to reactjs-job
+         needs: Install-nodejs-dependencies ## needs will ensure deploy-job runs only after successful completion of 'reactjs-job'
          runs-on: ubuntu-latest ## each job its own runner
          steps:
             - name: Checkout code
@@ -41,6 +55,11 @@ jobs:
               uses: actions/setup-node@v6
               with:
                 node-version: '24.x' 
+            - name: cache dependencies ## to remove same installtion again in below jobs.
+              uses: actions/cache@v5
+              with:
+                path: ~/.npm
+                key:  ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
             - name: Install dependencies
               working-directory: ${{ env.PROJECT_DIR }}
               run: |
@@ -51,4 +70,10 @@ jobs:
                 npm i env-cmd
             - name: Deploy Application
               run: echo "Deploying React Application..."
+    job_info:
+        needs: [deploy-job, Install-nodejs-dependencies] ## this job will run only after successful completion of both 'deploy-job' and 'Install-nodejs-dependencies'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Output github context
+              run: echo "${{ toJson(github) }}"
 

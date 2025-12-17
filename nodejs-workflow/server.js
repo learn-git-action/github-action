@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.static('public'));
 
-// Routes
+// Routes okay
 app.get('/', (req, res) => {
   res.send(`
     <!DOCTYPE html>
