@@ -36,7 +36,7 @@ jobs:
             ##### FLOW CONTROL STEPS #####
             - name: just to run echo command
               id: echo-step ## ID to refer below step for flow control
-              run: ech Hello World ## Done speeling mistake in echo to produce error
+              run: echo "Hello World" ## Done speeling mistake in echo to produce error
             - name: applying condition for flow control
               if: failure() && steps.echo-step.outcome == 'failure' ### conditional flow execution based on previous  outcome failed.
               run: echo "Previous step failed, so this step is executed." ## This step will run only whern previous step "just to run echo command" fails
