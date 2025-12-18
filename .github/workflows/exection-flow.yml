@@ -58,7 +58,7 @@ jobs:
                 name: my-artifact
             - name: required file name
               run : echo "${{ needs.flow-control.outputs.script-file }}"
-    output-info:
+    Failed-job-info:
         if: failure() ### this job will run only when any previous job "flow-control" fails
         needs: [flow-control, report]
         runs-on: ubuntu-latest
