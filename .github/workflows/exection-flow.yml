@@ -60,7 +60,7 @@ jobs:
               run : echo "${{ needs.flow-control.outputs.script-file }}"
     output-info:
         if: failure() ### this job will run only when any previous job "flow-control" fails
-        needs: flow-control
+        needs: [flow-control, report]
         runs-on: ubuntu-latest
         steps:
             - name: Output github context
