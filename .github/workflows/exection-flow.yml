@@ -1,14 +1,14 @@
-name: Run lint tests
+name: Execution-control
 #on: [workflow_dispatch, push]
 on:
   workflow_dispatch:
-# push:
-#     #     branches:
-#     #         - dev-ps
+  push:
+   branches:
+    - dev-ps
 env:
     PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
 jobs:
-    lint-test:
+    flow-control:
         runs-on: ubuntu-latest ## each job its own runner
         outputs: ## output section is for fetch output from build and get name info about files under build which van be used further operations
           script-file: ${{ steps.publish-js-files.outputs.my-script-file }}
@@ -33,6 +33,14 @@ jobs:
               run: |
                 echo "script-file=$(ls build/main.*.js)" >> $GITHUB_OUTPUT
                 #find build/*.js -type f -execdir echo 'my-script-file{}' ';' >> $GITHUB_OUTPUT
+            ##### FLOW CONTROL STEPS #####
+            - name: just to run echo command
+              id: echo-step ## ID to refer below step for flow control
+              run: ech "Hello World" ## Done speeling mistake in echo to produce error
+            - name: applying condition for flow control
+              if: failure() && steps.echo-step.outcome == 'failure' ### conditional flow execution based on previous  outcome failed.
+              run: echo "Previous step failed, so this step is executed." ## This step will run only whern previous step "just to run echo command" fails
+            
             - name: upload artifact
               uses: actions/upload-artifact@v6
               with:
@@ -40,8 +48,8 @@ jobs:
                 path: ${{ env.PROJECT_DIR }}/build/
             - name: Deploy code
               run: echo "Deploying code..."
-    output-info:
-        needs: lint-test
+    report:
+        needs: flow-control
         runs-on: ubuntu-latest
         steps:
             - name: Download Artifact ## need an upload as well
@@ -49,6 +57,12 @@ jobs:
               with:
                 name: my-artifact
             - name: required file name
-              run : echo "${{ needs.lint-test.outputs.script-file }}"
+              run : echo "${{ needs.flow-control.outputs.script-file }}"
+    Failed-job-info:
+        if: failure() ### this job will run only when any previous job "flow-control" fails
+        needs: [flow-control, report]
+        runs-on: ubuntu-latest
+        steps:
             - name: Output github context
               run: echo "${{ toJson(github.event) }}"
+        #### END FLOW CONTROL STEPS #####
