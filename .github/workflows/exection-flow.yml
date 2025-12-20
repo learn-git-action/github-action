@@ -27,6 +27,12 @@ jobs:
             - name: Build code
               working-directory: ${{ env.PROJECT_DIR }}
               run: npm run build
+            ### Continue-on-error example ###
+            - name: Test code
+              working-directory: ${{ env.PROJECT_DIR }}
+              continue-on-error: true  ## even if this step fails the next steps will continue to execute
+              run: npm test
+            ### End Continue-on-error example ###
             - name: publish js files ## just to get a file name from build folder
               working-directory: ${{ env.PROJECT_DIR }}
               id : publish-js-files
