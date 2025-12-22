@@ -2,7 +2,7 @@
 name: Reusable Deploy
 on: workflow_call ## this is required for reusable workflows
 jobs:
-    deploy:
+    re-usbale-deploy:
         runs-on: ubuntu-latest
         steps:
             - name: Output information
