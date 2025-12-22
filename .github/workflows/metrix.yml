@@ -9,9 +9,10 @@ defaults:
      working-directory: ./nodejs-workflow
 jobs:
   build:
+    continue-on-error: true
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [10.x,18.x, 20.x]
         operating-system: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.operating-system }} ## each job will run on specified OS in matrix with each node version.
     steps:
