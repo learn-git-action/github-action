@@ -45,6 +45,10 @@ jobs:
     deploy:
         needs: lint-test
         uses: ./.github/workflows/re-usable.yml ## calling reusable workflow
+        with:
+            artifiact-name: 'my-artifact' ## passing artifact name to reusable workflow it wil override default value mentioned in reusable workflow.
+
+  ### End reusable workflow ###
     output-info:
         needs: lint-test
         runs-on: ubuntu-latest

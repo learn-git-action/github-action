@@ -1,9 +1,23 @@
 ## This is a reusable workflow that can be called from other workflows
-name: Reusable Deploy
-on: workflow_call ## this is required for reusable workflows
+name: Reusable workflow Deploy
+#on: workflow_call ## this is required for reusable workflows
+on:
+    workflow_call:
+        inputs: ## defining inputs for reusable workflow
+            artifiact-name:
+                description: 'Name of the artifact to download'
+                required: false ## 
+                type: string
+                default: 'artifact' ## its a default value of artifacte name mentioned in calling workflow.
 jobs:
-    re-usbale-deploy:
+    re-usable-deploy:
         runs-on: ubuntu-latest
         steps:
+            - name: get code ## this step is required to operate on the code which is generrted in callingworkflow.
+              uses: actions/download-artifact@v6
+              with:
+                name: ${{ inputs.artifiact-name }} ## using input variable for artifact name
+            - name: list files
+              run: ls -la
             - name: Output information
               run: echo "Deploying & uploading as resubale workflow"
