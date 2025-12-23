@@ -34,6 +34,8 @@ jobs:
             ### applying custom action####
             - name: npm install & cache dependencies ## this will use custom action from .github/actions/npm-and-cached
               uses: ./.github/actions/npm-and-cached ## custom action to cache and load dependencies
+              with:
+                caching: 'false'  ## disabling caching for this job which has made default as true in action.yaml
                 ### completing custom action####
             
             - name: Deploy Application
