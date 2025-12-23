@@ -1,0 +1,60 @@
+name: Metrix Workflow
+on:
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - dev-ps
+defaults:
+    run:
+     working-directory: ./nodejs-workflow
+jobs:
+  runn-all-combinations-of-matrix:
+    continue-on-error: true
+    strategy:
+      matrix:
+        node-version: [10.x,18.x, 20.x]
+        operating-system: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.operating-system }} ## each job will run on specified OS in matrix with each node version.
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v6
+        with:
+            ref: dev-ps
+      - name: Install NodeJs
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: npm install
+      - name: Build project
+        run: npm run build
+
+    ### Below job will run job with custom combination of matrix values only ###
+  run-custome-combinations-of-matrix:
+    continue-on-error: true
+    strategy:
+      matrix:
+        node-version: [10.x,18.x, 20.x]
+        operating-system: [ubuntu-latest, windows-latest]
+        include:
+          - node-version: 16.x
+            operating-system: ubuntu-latest ## this comnination of 16.x will run on ubuntu--latest only
+        exclude:
+          - node-version: 10.x
+            operating-system: windows-latest ## this comnination of 10.x will NOT run on windows--latest
+    runs-on: ${{ matrix.operating-system }} ## each job will run on specified OS in matrix with each node version.
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v6
+        with:
+            ref: dev-ps
+      - name: Install NodeJs
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: npm install
+      - name: Build project
+        run: npm run build
+
+  

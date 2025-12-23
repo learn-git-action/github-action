@@ -55,12 +55,16 @@ jobs:
               uses: actions/setup-node@v6
               with:
                 node-version: '24.x' 
-            - name: cache dependencies ## to remove same installtion again in below jobs.
+            ## To install whole node_modulew folder in cache we can use below step
+            - name: cache node_modules ## to remove same installtion again in below jobs.
               uses: actions/cache@v5
+              id: cache-node-modules
               with:
-                path: ~/.npm
-                key:  ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                path: ${{ env.PROJECT_DIR }}/node_modules
+                key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+            
             - name: Install dependencies
+              if: steps.cache-node-modules.outputs.cache-hit != 'true' ## this step will run only if cache is not hit
               working-directory: ${{ env.PROJECT_DIR }}
               run: |
                 pwd

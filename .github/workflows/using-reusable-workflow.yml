@@ -1,14 +1,14 @@
-name: Execution-control
+name: Using Reusable Workflow
 #on: [workflow_dispatch, push]
 on:
   workflow_dispatch:
-  # push:
-  #  branches:
-  #   - dev-ps
+  push:
+    branches:
+        - dev-ps
 env:
     PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
 jobs:
-    flow-control:
+    lint-test:
         runs-on: ubuntu-latest ## each job its own runner
         outputs: ## output section is for fetch output from build and get name info about files under build which van be used further operations
           script-file: ${{ steps.publish-js-files.outputs.my-script-file }}
@@ -27,26 +27,12 @@ jobs:
             - name: Build code
               working-directory: ${{ env.PROJECT_DIR }}
               run: npm run build
-            ### Continue-on-error example ###
-            - name: Test code
-              working-directory: ${{ env.PROJECT_DIR }}
-              continue-on-error: true  ## even if this step fails the next steps will continue to execute
-              run: npm test
-            ### End Continue-on-error example ###
             - name: publish js files ## just to get a file name from build folder
               working-directory: ${{ env.PROJECT_DIR }}
               id : publish-js-files
               run: |
                 echo "script-file=$(ls build/main.*.js)" >> $GITHUB_OUTPUT
                 #find build/*.js -type f -execdir echo 'my-script-file{}' ';' >> $GITHUB_OUTPUT
-            ##### FLOW CONTROL STEPS #####
-            - name: just to run echo command
-              id: echo-step ## ID to refer below step for flow control
-              run: ech "Hello World" ## Done speeling mistake in echo to produce error
-            - name: applying condition for flow control
-              if: failure() && steps.echo-step.outcome == 'failure' ### conditional flow execution based on previous  outcome failed.
-              run: echo "Previous step failed, so this step is executed." ## This step will run only whern previous step "just to run echo command" fails
-            
             - name: upload artifact
               uses: actions/upload-artifact@v6
               with:
@@ -54,8 +40,17 @@ jobs:
                 path: ${{ env.PROJECT_DIR }}/build/
             - name: Deploy code
               run: echo "Deploying code..."
-    report:
-        needs: flow-control
+
+  ### Calling reusable workflow ###
+    deploy:
+        needs: lint-test
+        uses: ./.github/workflows/re-usable.yml ## calling reusable workflow
+        with:
+            artifiact-name: 'my-artifact' ## passing artifact name to reusable workflow it wil override default value mentioned in reusable workflow.
+
+  ### End reusable workflow ###
+    output-info:
+        needs: lint-test
         runs-on: ubuntu-latest
         steps:
             - name: Download Artifact ## need an upload as well
@@ -63,12 +58,6 @@ jobs:
               with:
                 name: my-artifact
             - name: required file name
-              run : echo "${{ needs.flow-control.outputs.script-file }}"
-    Failed-job-info:
-        if: failure() ### this job will run only when any previous job "flow-control" fails
-        needs: [flow-control, report]
-        runs-on: ubuntu-latest
-        steps:
+              run : echo "${{ needs.lint-test.outputs.script-file }}"
             - name: Output github context
               run: echo "${{ toJson(github.event) }}"
-        #### END FLOW CONTROL STEPS #####
