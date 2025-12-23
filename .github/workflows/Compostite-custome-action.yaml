@@ -31,27 +31,11 @@ jobs:
               uses: actions/checkout@v6
               with:
                 ref: dev-ps
-            - name: install nodejs
-              uses: actions/setup-node@v6
-              with:
-                node-version: '24.x' 
-            ## To install whole node_modulew folder in cache we can use below step
-            - name: cache node_modules ## to remove same installtion again in below jobs.
-              uses: actions/cache@v5
-              id: cache-node-modules
-              with:
-                path: ${{ env.PROJECT_DIR }}/node_modules
-                key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+            ### applying custom action####
+            - name: npm install & cache dependencies ## this will use custom action from .github/actions/npm-and-cached
+              uses: ./.github/actions/npm-and-cached ## custom action to cache and load dependencies
+                ### completing custom action####
             
-            - name: Install dependencies
-              if: steps.cache-node-modules.outputs.cache-hit != 'true' ## this step will run only if cache is not hit
-              working-directory: ${{ env.PROJECT_DIR }}
-              run: |
-                pwd
-                npm i --legacy-peer-deps
-                npm i --package-lock-only
-                npm ci
-                npm i env-cmd
             - name: Deploy Application
               run: echo "Deploying React Application..."
     job_info:
