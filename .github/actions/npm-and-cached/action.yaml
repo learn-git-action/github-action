@@ -5,6 +5,10 @@ inputs: ### input parameters to the action
     description: 'Enable or disable caching of nodejs dependencies'
     required: false
     default: 'true'
+outputs:
+  used-cache:
+    description: 'Indicates whether the cache was used'
+    value: ${{ steps.install-cache }}}}
 runs:
   using: 'composite'
   steps:
@@ -20,6 +24,7 @@ runs:
         path: ~/.npm
         key:  ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} ## key based on package-lock.json file hash
     - name: Install dependencies
+      id: install-cache
       if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true' ## this step will run only if cache is not hit
       working-directory: ${{ env.PROJECT_DIR }}
       run: |
@@ -28,4 +33,5 @@ runs:
         npm i --package-lock-only
         npm ci
         npm i env-cmd
+        echo "cache='${{inputs.caching}}'" >> $GITHUB_OUTPUT ## setting output variable
       shell: bash ## specify shell type is MUST
