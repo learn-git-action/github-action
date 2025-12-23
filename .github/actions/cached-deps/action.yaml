@@ -8,11 +8,13 @@ runs:
       with:
         node-version: '24.x'
     - name: cache dependencies ## to remove same installtion again in below jobs.
+      id: cache
       uses: actions/cache@v5
       with:
         path: ~/.npm
         key:  ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} ## key based on package-lock.json file hash
     - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true' ## this step will run only if cache is not hit
       working-directory: ${{ env.PROJECT_DIR }}
       run: |
         pwd
