@@ -27,7 +27,7 @@ jobs:
               with:
                 ref: dev-ps
             - name: npm install & cache dependencies ## this will use custom action from .github/actions/cache-and-load-dependencies
-              uses: ./.github/actions/cache-and-load-dependencies ## custom action to cache and load dependencies
+              uses: ./.github/actions/cached-deps ## custom action to cache and load dependencies
               
     deploy-job: ##this job by default runs parallel to reactjs-job
          needs: Install-nodejs-dependencies ## needs will ensure deploy-job runs only after successful completion of 'reactjs-job'
