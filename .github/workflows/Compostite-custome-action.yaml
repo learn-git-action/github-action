@@ -1,0 +1,69 @@
+name: React js workflow
+on: 
+    workflow_dispatch:
+    push:
+        branches:
+          - dev-ps
+        #branches-ignore:
+          #- main
+        paths:
+          - 'nodejs-workflow/**'  ##trigger workflow only if there are changes in nodejs-workflow directory
+        # paths-ignore:
+        #   - 'docs/**'  ##do not trigger workflow if there are only changes in docs directory
+        #   - '.github/workflows/**'  ##do not trigger workflow if there are only changes in .github/workflows directory
+## we can use either 'env' or 'defaults' to set working directory for run commands
+
+env:
+    PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
+# defaults:
+#   run:
+#     working-directory: ./nodejs-workflow ##default working directory for all run commands
+jobs:
+    Install-nodejs-dependencies:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+              with:
+                ref: dev-ps
+            - name: npm install & cache dependencies ## this will use custom action from .github/actions/cache-and-load-dependencies
+              uses: ./.github/actions/cache-and-load-dependencies ## custom action to cache and load dependencies
+              
+    deploy-job: ##this job by default runs parallel to reactjs-job
+         needs: Install-nodejs-dependencies ## needs will ensure deploy-job runs only after successful completion of 'reactjs-job'
+         runs-on: ubuntu-latest ## each job its own runner
+         steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+              with:
+                ref: dev-ps
+            - name: install nodejs
+              uses: actions/setup-node@v6
+              with:
+                node-version: '24.x' 
+            ## To install whole node_modulew folder in cache we can use below step
+            - name: cache node_modules ## to remove same installtion again in below jobs.
+              uses: actions/cache@v5
+              id: cache-node-modules
+              with:
+                path: ${{ env.PROJECT_DIR }}/node_modules
+                key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+            
+            - name: Install dependencies
+              if: steps.cache-node-modules.outputs.cache-hit != 'true' ## this step will run only if cache is not hit
+              working-directory: ${{ env.PROJECT_DIR }}
+              run: |
+                pwd
+                npm i --legacy-peer-deps
+                npm i --package-lock-only
+                npm ci
+                npm i env-cmd
+            - name: Deploy Application
+              run: echo "Deploying React Application..."
+    job_info:
+        needs: [deploy-job, Install-nodejs-dependencies] ## this job will run only after successful completion of both 'deploy-job' and 'Install-nodejs-dependencies'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Output github context
+              run: echo "${{ toJson(github) }}"
+
