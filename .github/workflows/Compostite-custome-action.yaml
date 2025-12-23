@@ -1,4 +1,4 @@
-name: React js workflow
+name: Composite Action Workflow 
 on: 
     workflow_dispatch:
     push:
