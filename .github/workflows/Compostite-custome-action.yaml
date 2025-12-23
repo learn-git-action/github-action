@@ -4,20 +4,13 @@ on:
     push:
         branches:
           - dev-ps
-        #branches-ignore:
-          #- main
+        
         paths:
-          - 'nodejs-workflow/**'  ##trigger workflow only if there are changes in nodejs-workflow directory
-        # paths-ignore:
-        #   - 'docs/**'  ##do not trigger workflow if there are only changes in docs directory
-        #   - '.github/workflows/**'  ##do not trigger workflow if there are only changes in .github/workflows directory
-## we can use either 'env' or 'defaults' to set working directory for run commands
+          - 'nodejs-workflow/**'
 
 env:
     PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
-# defaults:
-#   run:
-#     working-directory: ./nodejs-workflow ##default working directory for all run commands
+
 jobs:
     Install-nodejs-dependencies:
         runs-on: ubuntu-latest
@@ -26,12 +19,13 @@ jobs:
               uses: actions/checkout@v6
               with:
                 ref: dev-ps
-            - name: npm install & cache dependencies ## this will use custom action from .github/actions/cache-and-load-dependencies
-              uses: ./.github/actions/cached-deps ## custom action to cache and load dependencies
-              
-    deploy-job: ##this job by default runs parallel to reactjs-job
-         needs: Install-nodejs-dependencies ## needs will ensure deploy-job runs only after successful completion of 'reactjs-job'
-         runs-on: ubuntu-latest ## each job its own runner
+                ### applying custom action####
+            - name: npm install & cache dependencies ## this will use custom action from .github/actions/npm-and-cached
+              uses: ./.github/actions/npm-and-cached ## custom action to cache and load dependencies
+                ### completing custom action####
+    deploy-job: 
+         needs: Install-nodejs-dependencies 
+         runs-on: ubuntu-latest
          steps:
             - name: Checkout code
               uses: actions/checkout@v6
