@@ -37,7 +37,6 @@ jobs:
               with:
                 caching: 'false'  ## disabling caching for this job which has made default as true in action.yaml
                 ### completing custom action####
-            
             - name: Deploy Application
               run: echo "Deploying React Application..."
     job_info:
