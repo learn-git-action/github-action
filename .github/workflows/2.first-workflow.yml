@@ -1,0 +1,16 @@
+name: 2-first-workflow
+on:
+    workflow_dispatch:
+    push:
+      branches:
+        - dev-ps
+jobs:
+    run-shell-command:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Run a one-line script
+            run: echo "Hello, World!"
+          - name: run multiple commands
+            run: |
+              node -v
+              npm -v
