@@ -1,4 +1,4 @@
-name: 2-first-workflow
+name: org-first-workflow
 on:
     workflow_dispatch:
     push:
