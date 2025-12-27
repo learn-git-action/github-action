@@ -1,0 +1,48 @@
+name: Composite Action Workflow 
+on: 
+    workflow_dispatch:
+    push:
+        branches:
+          - dev-ps
+        
+        paths:
+          - 'nodejs-workflow/**'
+
+env:
+    PROJECT_DIR: ./nodejs-workflow  ## Set environment variable for project directory
+
+jobs:
+    Install-nodejs-dependencies:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+              with:
+                ref: dev-ps
+                ### applying custom action####
+            - name: npm install & cache dependencies ## this will use custom action from .github/actions/npm-and-cached
+              uses: ./.github/actions/npm-and-cached ## custom action to cache and load dependencies
+                ### completing custom action####
+    deploy-job: 
+         needs: Install-nodejs-dependencies 
+         runs-on: ubuntu-latest
+         steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+              with:
+                ref: dev-ps
+            ### applying custom action####
+            - name: npm install & cache dependencies ## this will use custom action from .github/actions/npm-and-cached
+              uses: ./.github/actions/npm-and-cached ## custom action to cache and load dependencies
+              with:
+                caching: 'false'  ## disabling caching for this job which has made default as true in action.yaml
+                ### completing custom action####
+            - name: Deploy Application
+              run: echo "Deploying React Application..."
+    job_info:
+        needs: [deploy-job, Install-nodejs-dependencies] ## this job will run only after successful completion of both 'deploy-job' and 'Install-nodejs-dependencies'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Output github context
+              run: echo "${{ toJson(github) }}"
+

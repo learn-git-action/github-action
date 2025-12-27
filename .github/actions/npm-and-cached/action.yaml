@@ -1,0 +1,33 @@
+name: 'npm install & cache dependencies'
+description: 'An action to get and cache nodejs dependencies'
+inputs: ### input parameters to the action
+  caching:
+    description: 'Enable or disable caching of nodejs dependencies'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: install nodejs
+      uses: actions/setup-node@v6
+      with:
+        node-version: '24.x'
+    - name: cache dependencies ## to remove same installtion again in below jobs.
+      if: inputs.caching == 'true' ## check if caching is enabled then only run this step
+      id: cache
+      uses: actions/cache@v5
+      with:
+        path: ~/.npm
+        key:  ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} ## key based on package-lock.json file hash
+    - name: Install dependencies
+      id: install-cache
+      if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true' ## this step will run only if cache is not hit
+      working-directory: ${{ env.PROJECT_DIR }}
+      run: |
+        pwd
+        npm i --legacy-peer-deps
+        npm i --package-lock-only
+        npm ci
+        npm i env-cmd
+       
