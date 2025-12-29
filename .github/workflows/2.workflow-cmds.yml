@@ -10,3 +10,5 @@ jobs:
         steps:
             - name: setting an error message
               run: echo "::error::This is a custom error message for testing purposes."
+            # - name: setting error msg with paramet file
+            #   run: echo "::error title=Custom Error title,file=app.js,line=10,col=15::This is a detailed error message with title and file info."
