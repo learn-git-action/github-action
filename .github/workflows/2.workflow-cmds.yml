@@ -1,9 +1,9 @@
 name: Testing workfloe cmds
 on:
     workflow_dispatch:
-    push:
-      branches:
-        - dev-ps
+    # push:
+    #   branches:
+    #     - dev-ps
 jobs:
     test-workflow-cmds:
         runs-on: ubuntu-latest
