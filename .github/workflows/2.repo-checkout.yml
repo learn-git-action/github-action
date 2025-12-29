@@ -14,9 +14,16 @@ jobs:
                 repository: learn-git-action/github-action
                 token: ${{ secrets.MY_PAT_TOKEN }}
                 ref: dev-ps
-    checkout-public-repo: ### To checkout public repo no token is required
+    checkout-same-public-repo-stored-workflow: ### To checkout same public repo where workflow is stored no token is required
         runs-on: ubuntu-latest
-        #needs: checkout-private-repo
+        needs: checkout-private-repo
+        steps:
+            - name: Checkout code from dev-ps branch
+              uses: actions/checkout@v6
+              with:
+                ref: dev-ps
+    checkout-other-public-repo: ### To checkout other public repo which does not contain this workflow, no token is required
+        runs-on: ubuntu-latest
         steps:
             - name: Checkout code from dev-ps branch
               uses: actions/checkout@v6
