@@ -11,7 +11,7 @@ jobs:
             - name: Checkout code from dev-ps branch
               uses: actions/checkout@v6
               with:
-                repository: learn-github-actions/github-action
+                repository: learn-git-actions/github-action
                 token: ${{ secrets.MY_PAT_TOKEN }}
                 ref: dev-ps
     # checkout-public-repo: ### To checkout public repo no token is required
