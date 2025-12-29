@@ -4,6 +4,9 @@ on:
     push:
       branches:
         - dev-ps
+defaults:
+    run:
+        shell: bash
 
 jobs:
     display-working-dir-info:
@@ -17,15 +20,26 @@ jobs:
                  echo $GITHUB_REPOSITORY ### Display repository name
                  echo $GITHUB_WORKSPACE ### Display GitHub workspace path
     display-windows-working-dir-info:
+        defaults:
+            run:
+                shell: pwsh ## overriding workflow default and setting shell to powershell for windows runner
         runs-on: windows-latest
         steps:
             - name: Display working directory and list files
               run: |
-                 pwd
-                 ls -a
-                 echo $GITHUB_SHA ### Display commit id
-                 echo $GITHUB_REPOSITORY ### Display repository name
-                  $GITHUB_WORKSPACE ### Display GitHub workspace path
+                 Get-Location
+                 dir
+                 echo $env:GITHUB_SHA ### Display commit id
+                 echo $env:GITHUB_REPOSITORY ### Display repository name
+                 echo $env:GITHUB_WORKSPACE ### Display GitHub workspace path
+            - name: selecting python shell
+              shell: python
+              run: |
+                 import os
+                 print("Current Working Directory:", os.getcwd())
+                 print("GITHUB_SHA:", os.getenv('GITHUB_SHA'))
+                 print("GITHUB_REPOSITORY:", os.getenv('GITHUB_REPOSITORY'))
+                 print("GITHUB_WORKSPACE:", os.getenv('GITHUB_WORKSPACE'))
 
 
               
