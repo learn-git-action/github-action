@@ -1,0 +1,12 @@
+name: Testing workfloe cmds
+on:
+    workflow_dispatch:
+    push:
+      branches:
+        - dev-ps
+jobs:
+    test-workflow-cmds:
+        runs-on: ubuntu-latest
+        steps:
+            - name: setting an error message
+              run: echo "::error::This is a custom error message for testing purposes."
