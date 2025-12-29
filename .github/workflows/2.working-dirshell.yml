@@ -1,9 +1,9 @@
 name: Working dir and shell cmds
 on:
     workflow_dispatch:
-    push:
-      branches:
-        - dev-ps
+    # push:
+    #   branches:
+    #     - dev-ps
 defaults:
     run:
         shell: bash

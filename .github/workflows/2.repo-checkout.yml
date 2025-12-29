@@ -1,0 +1,25 @@
+name: repo-checkout-workflow
+on:
+    workflow_dispatch:
+    push:
+      branches:
+        - dev-ps
+jobs:
+    checkout-private-repo: ### To checkout private repo using PAT token
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code from dev-ps branch
+              uses: actions/checkout@v6
+              with:
+                repository: learn-github-actions/github-action
+                token: ${{ secrets.MY_PAT_TOKEN }}
+                ref: dev-ps
+    # checkout-public-repo: ### To checkout public repo no token is required
+    #     runs-on: ubuntu-latest
+    #     needs: checkout-private-repo
+    #     steps:
+    #         - name: Checkout code from dev-ps branch
+    #           uses: actions/checkout@v6
+    #           with:
+    #             repository: learn-github-actions/github-action
+    #             ref: main
