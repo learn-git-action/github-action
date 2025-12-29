@@ -14,12 +14,12 @@ jobs:
                 repository: learn-git-action/github-action
                 token: ${{ secrets.MY_PAT_TOKEN }}
                 ref: dev-ps
-    # checkout-public-repo: ### To checkout public repo no token is required
-    #     runs-on: ubuntu-latest
-    #     needs: checkout-private-repo
-    #     steps:
-    #         - name: Checkout code from dev-ps branch
-    #           uses: actions/checkout@v6
-    #           with:
-    #             repository: learn-github-actions/github-action
-    #             ref: main
+    checkout-public-repo: ### To checkout public repo no token is required
+        runs-on: ubuntu-latest
+        #needs: checkout-private-repo
+        steps:
+            - name: Checkout code from dev-ps branch
+              uses: actions/checkout@v6
+              with:
+                repository: learn-git-action/github-action
+                ref: dev-ps
