@@ -1,9 +1,9 @@
 name: repo-checkout-workflow
 on:
     workflow_dispatch:
-    push:
-      branches:
-        - dev-ps
+    # push:
+    #   branches:
+    #     - dev-ps
 jobs:
     checkout-private-repo: ### To checkout private repo using PAT token
         runs-on: ubuntu-latest
