@@ -21,3 +21,4 @@ jobs:
                  echo "Repository: ${{ github.repository }}"
                  echo "Actor: ${{ github.actor }}"
                  echo "Event Payload:"
+                 echo "${{ toJson(github.event) }}"
