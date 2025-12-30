@@ -1,0 +1,56 @@
+name: Manually triggered workflow with inputs 
+on:
+    workflow_dispatch:
+        inputs:
+            text_input:
+                description: 'Enter some text'
+                required: true
+                default: 'Hello, World!'
+            number_input:
+                description: 'Enter a number'
+                required: false
+                default: '42'
+            option_input:
+                type: choice
+                description: 'Choose an option'
+                required: true
+                default: 'option1'
+                options:
+                    - option1
+                    - option2
+                    - option3
+            boolean_input:
+                type: boolean
+                description: 'Select true or false'
+                required: false
+                default: true
+            environment_input:
+                type: environment
+                description: 'Select deployment environment'
+                required: true
+                default: 'test'
+            
+
+    # push:
+    #   branches:
+    #     - dev-ps
+jobs:
+    log-info:
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo $GITHUB_REF ### Display the branch or tag ref that triggered the workflow
+            -run: |
+                echo "String: ${{ inputs.text_input }}"
+                echo "Text Input: ${{ github.event.inputs.text_input }}"
+                echo "Number Input: ${{ github.event.inputs.number_input }}" 
+                echo "Option Input: ${{ github.event.inputs.option_input }}"
+                echo "Boolean Input: ${{ github.event.inputs.boolean_input }}"
+                echo "Environment Input: ${{ github.event.inputs.environment_input }}"
+
+    # test-workflow-cmds:
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: setting an error message
+    #           run: echo "::error::This is a custom error message for testing purposes."
+    #         # - name: setting error msg with paramet file
+    #         #   run: echo "::error title=Custom Error title,file=app.js,line=10,col=15::This is a detailed error message with title and file info."
