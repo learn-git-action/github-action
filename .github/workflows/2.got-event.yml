@@ -1,11 +1,14 @@
 name: Repo event
 on:
-    push:
-      branches:
+    push: ## all the filters should get one match to trigger the workflow.like branch filter and path filter.
+      branches: ## below order is importent
         - dev-ps
         - "feature/*" ## trigger feature/abc
         - "feature/**" ## trigger feature/abc/xyz
         - "!feature/wip" ## exclude feature/wip branch
+      paths:
+        - 'src/**'  ## trigger only if changes in src folder
+        - '!.github/**' ## exclude changes in .github folder   
     pull_request:
         types: [opened, assigned, reopened, synchronize, labeled]
 jobs:
