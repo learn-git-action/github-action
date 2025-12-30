@@ -1,0 +1,28 @@
+name: org-first-workflow
+on:
+    workflow_dispatch:
+    # push:
+    #   branches:
+    #     - dev-ps
+jobs:
+    run-shell-command:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Run a one-line script
+            run: echo "Hello, World!"
+          - name: run multiple commands
+            run: |
+              node -v
+              npm -v
+              echo "Multiple commands executed."
+    parallel-jobs-macos:
+        runs-on: macos-latest
+        steps:
+            - name: View SW Version
+              run: sw_vers
+    dependant-job:
+        runs-on: ubuntu-latest
+        needs: [parallel-jobs-macos, run-shell-command]
+        steps:
+            - name: Dependant Job Step
+              run: echo "This job runs after the other two jobs are complete."
