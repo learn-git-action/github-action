@@ -30,16 +30,17 @@ on:
                 required: true
                 default: 'test'
             
+            
 
-    # push:
-    #   branches:
-    #     - dev-ps
+    push:
+      branches:
+        - dev-ps
 jobs:
     log-info:
         runs-on: ubuntu-latest
         steps:
-            - run: echo $GITHUB_REF ### Display the branch or tag ref that triggered the workflow
-            - run: |
+           - run: echo $GITHUB_REF ### Display the branch or tag ref that triggered the workflow
+           - run: |
                 echo "String: ${{ inputs.text_input }}"
                 echo "Text Input: ${{ github.event.inputs.text_input }}"
                 echo "Number Input: ${{ github.event.inputs.number_input }}" 
