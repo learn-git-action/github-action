@@ -2,7 +2,7 @@ name: Repo event
 on:
     push: ## all the filters should get one match to trigger the workflow.like branch filter and path filter.
       branches: ## below order is importent
-        - dev-ps
+        #- dev-ps
         - "feature/*" ## trigger feature/abc
         - "feature/**" ## trigger feature/abc/xyz
         - "!feature/wip" ## exclude feature/wip branch
