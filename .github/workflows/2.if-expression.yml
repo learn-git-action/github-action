@@ -7,9 +7,9 @@ on:
 run-name: "if-expression ${{ github.ref }} , by ${{github.actor}}"
 jobs:
     runs-on-push:
-        if: ${{ github.repository == 'Pranav/github-action' }} ## conditional to run this job only for specific repository
+        #if: ${{ github.repository == 'Pranav/github-action' }} ## conditional to run this job only for specific repository
         runs-on: ubuntu-latest
-        #if: ${{ github.event_name == 'push' }} ## conditional to run this job only on push event
+        if: ${{ github.event_name == 'push' }} ## conditional to run this job only on push event
         steps:
             - name: Run on Push Event
               run: echo "This job runs only on push events."
