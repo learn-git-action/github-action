@@ -1,0 +1,21 @@
+name: if-expression-workflow
+on:
+    workflow_dispatch:
+    push:
+      branches:
+        - dev-ps
+run-name: "if-expression ${{ github.ref }} , by ${{github.actor}}"
+jobs:
+    runs-on-push:
+        if: ${{ github.repository == 'Pranav/github-action' }} ## conditional to run this job only for specific repository
+        runs-on: ubuntu-latest
+        #if: ${{ github.event_name == 'push' }} ## conditional to run this job only on push event
+        steps:
+            - name: Run on Push Event
+              run: echo "This job runs only on push events."
+            - name: if contains expression
+              if: ${{ contains(github.ref, 'dev-ps') }} ## conditional to run this step only if branch name contains dev-ps
+              run: echo "The branch name contains 'dev-ps'."
+            - name: Fromjson example
+              if: contains(fromJson('["issue","pull_request"]'), github.event.action) ## conditional to run this step only if event action is issue or pull_request
+              run: echo "The event action is either 'issue' or 'pull_request'."

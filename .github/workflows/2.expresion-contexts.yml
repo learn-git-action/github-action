@@ -9,6 +9,7 @@ run-name: "Expression Contexts on ${{ github.ref }} by ${{ github.actor }} on ev
 jobs:
     display-contexts:
         runs-on: ubuntu-latest
+        if: ${{ github.event_name == 'push' }} ## conditional to run this job only on push event
         steps:
             - name: Display GitHub Context
               id: display_contexts-id
