@@ -32,9 +32,9 @@ jobs:
                   echo "Job Status: ${{ job.status }}"
                   echo "Job ID: ${{ job.id }}"
 
-            - name: Display Workflow Context
-              run: |
-                  echo "Workflow Context:"
-                  echo "Workflow: ${{ workflow.name }}"
-                  echo "Workflow Run ID: ${{ workflow.run_id }}"
-                  echo "Workflow Run Number: ${{ workflow.run_number }}"
+            # - name: Display Workflow Context
+            #   run: |
+            #       echo "Workflow Context:"
+            #       echo "Workflow ${{ workflow.name }}"
+            #       echo "Workflow Run ID: ${{ workflow.run_id }}"
+            #       echo "Workflow Run Number: ${{ workflow.run_number }}"
