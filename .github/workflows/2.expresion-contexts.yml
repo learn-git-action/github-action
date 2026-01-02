@@ -4,7 +4,7 @@ on:
     push:
         branches:
         - dev-ps
-run-name: "Expression Contexts on ${{ github.ref }} by ${{ github.actor }} on event"
+run-name: "Expression Contexts on ${{ github.ref }} by ${{ github.actor }} on event ${{ github.event_name }} commit message ${{ github.event.head_commit.message }}"
 ## run-name supports expressions to provide dynamic names for workflow runs.
 jobs:
     display-contexts:
