@@ -9,9 +9,9 @@ run-name: "Expression Contexts on ${{ github.ref }} by ${{ github.actor }} on ev
 jobs:
     display-contexts:
         runs-on: ubuntu-latest
-        id: display_contexts-id
         steps:
             - name: Display GitHub Context
+              id: display_contexts-id
               run: |
                   echo "GitHub Context:"
                   echo "Repository: ${{ github.repository }}"
