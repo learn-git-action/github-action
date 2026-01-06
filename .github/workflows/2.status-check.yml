@@ -9,7 +9,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: step 1
-              run: sleeep 20
+              run: sleep 20
             - name: step-2
               run : exit 1
             - name: Runs on Failure
