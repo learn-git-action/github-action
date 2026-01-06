@@ -1,9 +1,9 @@
 name: if-expression-workflow
 on:
     workflow_dispatch:
-    push:
-      branches:
-        - dev-ps
+    # push:
+    #   branches:
+    #     - dev-ps
 run-name: "if-expression ${{ github.ref }} , by ${{github.actor}}"
 jobs:
     runs-on-push:

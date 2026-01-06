@@ -1,9 +1,9 @@
 name: status-check-workflow
 on:
     workflow_dispatch:
-    push:
-      branches:
-        - dev-ps
+    # push:
+    #   branches:
+    #     - dev-ps
 jobs:
     status-check-jobs:
         runs-on: ubuntu-latest
@@ -12,8 +12,9 @@ jobs:
               run: sleep 20
             - name: step 2
               id: step-2
-              run : exit 0
+              run : exit 1
             - name: Runs on Failure
+              ### it will only run when step2 get failed
               if : failure() && steps.step-2.conclusion == 'failure'
               run: echo "Runs only on Failure"
             - name: Runs on Success
