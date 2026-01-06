@@ -1,0 +1,28 @@
+name: status-check-workflow
+on:
+    workflow_dispatch:
+    push:
+      branches:
+        - dev-ps
+jobs:
+    status-check-jobs:
+        runs-on: ubuntu-latest
+        steps:
+            - name: step 1
+              run: sleeep 20
+            - name: step-2
+              run : exit 1
+            - name: Runs on Failure
+              if : failure() && steps.step-2.conclusion == 'failure'
+              run: echo "Runs only on Failure"
+            - name: Runs on Success
+              ### This is not needed (DEFAULT BEHAVIOR)
+              if: success()
+              run: echo "Runs only on Success"
+            - name: Runs on Always
+              ### if: success() || failure()
+              if: always()
+              run: echo "Runs on Always"
+            - name: Runs on Cancelled
+              if: cancelled()
+              run: echo "Runs only on Cancelled"
