@@ -32,9 +32,9 @@ on:
             
             
 
-    push:
-      branches:
-        - dev-ps
+    # push:
+    #   branches:
+    #     - dev-ps
 jobs:
     log-info:
         runs-on: ubuntu-latest
