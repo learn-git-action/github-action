@@ -22,7 +22,7 @@ on:
             boolean_input:
                 type: boolean
                 description: 'Select true or false'
-                required: false
+                required: true
                 default: true
             environment_input:
                 type: environment
