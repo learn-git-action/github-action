@@ -4,7 +4,7 @@ on:
     push:
         branches:
         - dev-ps
-run-name: "change for ${{ github.event.head_commit.message }} from source bracnh: ${{ github.ref }} by ${{ github.event.head_commit.committer.name }} on event ${{ github.event_name }}"
+run-name: "${{ github.event.head_commit.message }} from source bracnh: ${{ github.ref }} by ${{ github.event.head_commit.committer.name }} on event ${{ github.event_name }}"
 ## run-name supports expressions to provide dynamic names for workflow runs..
 jobs:
     display-contexts:
