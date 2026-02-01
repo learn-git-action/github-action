@@ -1,11 +1,11 @@
 name: Expression Contexts
 on:
     workflow_dispatch:
-    # push:
-    #     branches:
-    #     - dev-ps
+    push:
+        branches:
+        - dev-ps
 run-name: "Expression Contexts on ${{ github.ref }} by ${{ github.actor }} on event ${{ github.event_name }} commit message ${{ github.event.head_commit.message }}"
-## run-name supports expressions to provide dynamic names for workflow runs.
+## run-name supports expressions to provide dynamic names for workflow runs..
 jobs:
     display-contexts:
         runs-on: ubuntu-latest
