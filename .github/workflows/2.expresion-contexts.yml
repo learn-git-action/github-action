@@ -14,7 +14,7 @@ jobs:
             - name: Display GitHub Context
               id: display_contexts-id
               run: |
-                  echo "GitHub Context : ${{ toJson(github.event.commits.message) }}" ## provide entire github context in json format
+                  echo "GitHub Context : ${{ toJson(github.event.commits) }}" ## provide entire github context in json format
                   echo "myjob: ${{ toJson(job)}}"
                   echo "Repository: ${{ github.repository }}" ### only github without tojson gives string value of repository
                   echo 'github event ${{ github.event}}'
