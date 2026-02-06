@@ -1,5 +1,6 @@
 name: Repo event
 on:
+    workflow_dispatch:
     push: ## all the filters should get one match to trigger the workflow.like branch filter and path filter.
       branches: ## below order is importent
         #- dev-ps

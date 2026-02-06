@@ -10,6 +10,8 @@ jobs:
     display-contexts:
         runs-on: ubuntu-latest
         if: ${{ github.event_name == 'push' }} ## conditional to run this job only on push event
+        #if : contains(fromJson('["push#","issues"]'), github.event_name) ## conditional to run this job only on push or issues event
+        ##if: contains(github.event.issue.labels.*.name, 'bug') # conditional to run this job only if issue has label 'bug'
         steps:
             - name: Display GitHub Context
               id: display_contexts-id
